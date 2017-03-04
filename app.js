@@ -6,6 +6,7 @@ var express = require('express')
 var app = express()
 var gpio = GPIO_ENABLED ? require("gpio") : null;
 var socketio = require('socket.io')
+var exec = require('child_process').exec;
 
 
 
@@ -63,9 +64,12 @@ if(GPIO_ENABLED){
     sendUpdate();
   });
 
+  exec("chromium-browser --incognito --kiosk http://localhost:"+WEB_PORT)
+
 }else{
   console.log("GPIO disabled")
 }
+
 
 
 
