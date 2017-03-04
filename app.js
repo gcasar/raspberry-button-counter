@@ -1,12 +1,12 @@
-const WEB_PORT = 3000
-const WEBSOCKET_PORT = 8080
-const GPIO_ENABLED = false // set to false to simulate in case not running on raspberry
+var WEB_PORT = 3000
+var GPIO_ENABLED = false // set to false to simulate in case not running on raspberry
 
 
-const express = require('express')
-const app = express()
-const gpio = GPIO_ENABLED ? require("gpio") : null;
-const WebSocket = require('ws');
+var express = require('express')
+var app = express()
+var gpio = GPIO_ENABLED ? require("gpio") : null;
+var socketio = require('socket.io')
+
 
 
 //tracks last value of gpio22
@@ -17,30 +17,32 @@ WS_CONNECTION = null;
 
 /// SETUP STATIC WEBSERVER //////////////////
 app.use(express.static('public'))
-app.listen(WEB_PORT, function () {
+var server = app.listen(WEB_PORT, function () {
   console.log('Static server listening on port '+WEB_PORT)
 })
 
 
 /// SETUP FULL-DUPLEX COMMUNICATION /////////
 
-const wss = new WebSocket.Server({ port: WEBSOCKET_PORT });
-console.log('WebSocker server listening on port '+WEBSOCKET_PORT)
+io = socketio.listen(server)
+console.log('WebSocker server listening on port '+WEB_PORT)
 
-wss.on('connection', function connection(ws) {
-  WS_CONNECTION = ws;
+
+io.sockets.on('connection', function (socket) {
+  WS_CONNECTION = socket;
   sendUpdate();
 });
+
 
 
 /// SETUP GPIO EVENT LISTENERS /////////////
 
 
-const sendUpdate = function(){
+var sendUpdate = function(){
   if( WS_CONNECTION ){
     console.log("Client connected, sending first update")
-    const payload = {'button':BUTTON_LAST_VALUE}
-    WS_CONNECTION.send(JSON.stringify(payload))
+    var payload = {'button':BUTTON_LAST_VALUE}
+    WS_CONNECTION.emit(JSON.stringify(payload))
   }else{
     console.log("Warning: no client connected, cannot send update.")
   }
