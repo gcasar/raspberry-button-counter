@@ -27,6 +27,8 @@
 		</div>
 	</body>
 	<script>
+		const WEBSOCKET_PORT = 8080
+
 		var downtick = function(){
 			var element = document.getElementById("counter");
 			var num = parseInt(element.innerHTML)
@@ -34,6 +36,11 @@
 			if(num<0)num = 0;
 			element.innerHTML = ""+num;
 		}
-		downtick();
+
+		var server = new WebSocket("ws://localhost:"+WEBSOCKET_PORT);
+		server.onmessage = function( event ){
+			downtick();
+			console.log("Recieved an event from server: "+JSON.stringify(event.data))
+		}
 	</script>
 </html>

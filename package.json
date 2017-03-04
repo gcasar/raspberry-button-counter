@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.0",
-    "gpio": "^0.2.7"
+    "gpio": "^0.2.7",
+    "ws": "^2.2.0"
   }
 }
