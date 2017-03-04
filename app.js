@@ -1,5 +1,5 @@
 var WEB_PORT = 3000
-var GPIO_ENABLED = false // set to false to simulate in case not running on raspberry
+var GPIO_ENABLED = true // set to false to simulate in case not running on raspberry
 
 
 var express = require('express')
@@ -8,7 +8,7 @@ var gpio = GPIO_ENABLED ? require("gpio") : null;
 var socketio = require('socket.io')
 var exec = require('child_process').exec;
 
-
+process.chdir("/home/pi/raspberry-button-counter")
 
 //tracks last value of gpio22
 BUTTON_LAST_VALUE = 1 // 1 -> Button not pressed 0 -> Button pressed
@@ -24,10 +24,12 @@ var server = app.listen(WEB_PORT, function () {
 
 
 /// SETUP FULL-DUPLEX COMMUNICATION /////////
-
 io = socketio.listen(server)
 console.log('WebSocker server listening on port '+WEB_PORT)
 
+server.on('listening', function(){
+	openBrowser()
+})
 
 io.sockets.on('connection', function (socket) {
   WS_CONNECTION = socket;
@@ -64,13 +66,15 @@ if(GPIO_ENABLED){
     sendUpdate();
   });
 
-  exec("chromium-browser --incognito --kiosk http://localhost:"+WEB_PORT)
-
 }else{
   console.log("GPIO disabled")
 }
 
+function openBrowser(){
+	exec("chromium-browser --incognito --kiosk http://localhost:"+WEB_PORT)
+}
 
+//setTimeout(openBrowser, 3000)
 
 
 
