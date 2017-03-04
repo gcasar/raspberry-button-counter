@@ -42,7 +42,7 @@ var sendUpdate = function(){
   if( WS_CONNECTION ){
     console.log("Client connected, sending first update")
     var payload = {'button':BUTTON_LAST_VALUE}
-    WS_CONNECTION.emit(JSON.stringify(payload))
+    WS_CONNECTION.emit('message', JSON.stringify(payload))
   }else{
     console.log("Warning: no client connected, cannot send update.")
   }

@@ -26,8 +26,9 @@
 			<h1 id="counter">50</h1>
 		</div>
 	</body>
+<script src="/socket.io/socket.io.js"></script>
 	<script>
-		const WEBSOCKET_PORT = 8080
+		const WEBSOCKET_PORT = 3000
 
 		var downtick = function(){
 			var element = document.getElementById("counter");
@@ -37,10 +38,11 @@
 			element.innerHTML = ""+num;
 		}
 
-		var server = new WebSocket("ws://localhost:"+WEBSOCKET_PORT);
-		server.onmessage = function( event ){
+ 		var socket = io.connect("ws://localhost:"+WEBSOCKET_PORT);
+               
+        socket.on('message', function (data) {
 			downtick();
-			console.log("Recieved an event from server: "+JSON.stringify(event.data))
-		}
+			console.log("Recieved an event from server: "+JSON.stringify(event.value))
+        });
 	</script>
 </html>
