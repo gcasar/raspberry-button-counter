@@ -9,6 +9,7 @@
   "author": "me",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.15.0"
+    "express": "^4.15.0",
+    "gpio": "^0.2.7"
   }
 }
