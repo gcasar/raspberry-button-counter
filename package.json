@@ -1,0 +1,14 @@
+{
+  "name": "gumb",
+  "version": "1.0.0",
+  "description": "Its a button",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app"
+  },
+  "author": "me",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.0"
+  }
+}

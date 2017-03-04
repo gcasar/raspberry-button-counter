@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<style>
+			html, body {
+			    height: 100%;
+			}
+
+			html {
+			    display: table;
+			    margin: auto;
+			}
+
+			body {
+			    display: table-cell;
+			    vertical-align: middle;
+			}
+
+			#id{
+				font-size: 90%
+			}
+		</style>
+	</head>
+	<body>
+		<h2>Samo še:</h2>
+		<div class="center">
+			<h1 id="counter">50</h1>
+		</div>
+	</body>
+	<script>
+		var downtick = function(){
+			var element = document.getElementById("counter");
+			var num = parseInt(element.innerHTML)
+			num = num-1;
+			if(num<0)num = 0;
+			element.innerHTML = ""+num;
+		}
+		downtick();
+	</script>
+</html>
