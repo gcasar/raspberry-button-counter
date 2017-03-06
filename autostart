@@ -1,0 +1,9 @@
+#@lxpanel --profile LXDE-pi
+#@pcmanfm --desktop --profile LXDE-pi
+#@xscreensaver -no-splash
+#@point-rpi
+@xset s off
+@xset -dpms
+@xset s noblank
+@node /home/pi/raspberry-button-counter
+
