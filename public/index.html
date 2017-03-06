@@ -34,7 +34,7 @@
 	<body>
 		
 		<div class="center">
-			<h1 id="counter">50</h1>
+			<h1 id="counter">55</h1>
 		</div>
 		<img id="button" src="./bigredbutton.jpg"/>
 	</body>
@@ -55,7 +55,7 @@
 		var reset = function(){
 			last_down = null;
 			var element = document.getElementById("counter");
-			element.innerHTML = ""+50;
+			element.innerHTML = ""+55;
 		}
 
 		var ondown = function(){
@@ -84,10 +84,11 @@
 	 		var socket = io.connect("ws://localhost:"+WEBSOCKET_PORT);
 	               
 	        socket.on('message', function (event) {
-	        	console.log("Recieved an event from server: "+JSON.stringify(event.value))
-	        	if ( event.value["button"] == 1 ){
+	        	console.log("Recieved an event from server: "+JSON.stringify(event))
+	        	event = JSON.parse(event)
+			if ( event["button"] == 1 ){
 	        		onup();
-	        	} else if ( event.value["button"] == 0 ){
+	        	} else if ( event["button"] == 0 ){
 	        		ondown();
 	        	}
 	        });
