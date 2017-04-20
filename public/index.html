@@ -22,27 +22,69 @@
 			  transform: translate(-50%, -50%);
 			}
 			#counter{
+				z-index:50;
 				font-size: 40em
 			}
 
 			#button{
+				z-index: 1002;
 				width:100pt;
 				height:100pt;
+			}
+			.controls{
+				z-index:1000
+			}
+
+			.controls h1{
+				z-index:1002
+				display: inline-block;
+				padding: 10pt;
+				color:white;
+				font-size: 5em;
+			}
+
+			.controls h1:hover{
+				color:black;
+				background-color: gray;
 			}
 		</style>
 	</head>
 	<body>
-		
+
+		<div class="controls" style="float:right;">
+			<h1 id="_55" onclick="set(55);">55</h1>
+			<h1 id="_100" onclick="set(100);">100</h1>
+			<h1 id="_200" onclick="set(200);">200</h1>
+		</div>
+		<div class="controls" style="float:left;">
+			<h1 id="_add" onclick="add(+5);">+5</h1>
+			<h1 id="_sub" onclick="add(-5);">-5</h1>
+
+		</div>
 		<div class="center">
-			<h1 id="counter">55</h1>
+			<h1 id="counter">100</h1>
 		</div>
 		<img id="button" src="./bigredbutton.jpg"/>
+		
 	</body>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		const WEBSOCKET_PORT = 3000
 
 		var last_down = null
+
+		var initial_value = 100;
+
+		var set = function(v){
+			initial_value = v;
+			reset();
+		}
+
+		var add = function(v){
+			initial_value = initial_value+v;
+			reset();
+		}
+
 
 		var downtick = function(){
 			var element = document.getElementById("counter");
@@ -55,7 +97,7 @@
 		var reset = function(){
 			last_down = null;
 			var element = document.getElementById("counter");
-			element.innerHTML = ""+55;
+			element.innerHTML = ""+initial_value;
 		}
 
 		var ondown = function(){
